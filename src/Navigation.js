@@ -4,6 +4,7 @@ import React from 'react'
 import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
+import {useNavigation} from '@react-navigation/native'
 
 import HomeScreen from './screens/HomeScreen'
 import CartScreen from './screens/CartScreen'
@@ -15,29 +16,17 @@ const Stack = createNativeStackNavigator()
 const Tab = createBottomTabNavigator()
 
 function Navigation () {
+  const navigation = useNavigation()
+
   return (
     // <NavigationContainer>
     <Tab.Navigator
       initialRouteName='Home'
       screenOptions={{
         tabBarActiveTintColor: '#e91e63',
-        tabBarInactiveTintColor: '#FCF5ED',
+        tabBarInactiveTintColor: '#000',
         tabBarShowLabel: false,
-        tabBarStyle: {
-          position: 'absolute',
-          bottom: 10,
-          left: 0,
-          right: 0,
-          elevation: 0,
-          backgroundColor: '#0C356A',
-          borderTopColor: 'transparent',
-          height: 60,
-          borderBottomEndRadius: 20,
-          borderBottomStartRadius: 20,
-          borderTopRightRadius: 20,
-          borderTopLeftRadius: 20,
-          marginHorizontal: 10,
-        },
+        // headerShown: false,
       }}>
       <Tab.Screen
         name='Home'
@@ -56,6 +45,14 @@ function Navigation () {
             <Ionicons name='cart' color={color} size={26} />
           ),
           tabBarBadge: 3,
+          headerLeft: () => (
+            <Ionicons
+              name='arrow-back'
+              size={26}
+              color='#000'
+              onPress={() => navigation.goBack()}
+            />
+          ),
         }}
       />
       <Tab.Screen
@@ -64,6 +61,14 @@ function Navigation () {
         options={{
           tabBarIcon: ({color}) => (
             <Ionicons name='person' color={color} size={26} />
+          ),
+          headerLeft: () => (
+            <Ionicons
+              name='arrow-back'
+              size={26}
+              color='#000'
+              onPress={() => navigation.goBack()}
+            />
           ),
         }}
       />

@@ -1,4 +1,4 @@
-import {View, Text, Button} from 'react-native'
+import {View, Text, Button, FlatList} from 'react-native'
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import Card from '../components/Card'
@@ -22,19 +22,23 @@ const HomeScreen = ({navigation}) => {
         // backgroundColor: '#000',
         // alignItems: 'center',
         // justifyContent: 'center',
-        padding: 20,
+        paddingHorizontal: 10,
       }}>
       <SearchFilterComponent />
-      {data.map(item => (
-        <Card
-          key={item._id}
-          title={item.title}
-          price={item.price}
-          image={item.image}
-          navigation={navigation}
-          id={item._id}
-        />
-      ))}
+      <FlatList
+        data={data}
+        renderItem={({item}) => (
+          <Card
+            title={item.title}
+            price={item.price}
+            image={item.image}
+            navigation={navigation}
+            id={item.id}
+          />
+        )}
+        keyExtractor={item => item._id}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   )
 }

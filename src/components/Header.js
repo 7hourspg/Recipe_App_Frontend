@@ -51,7 +51,7 @@ class SearchFilterComponent extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    padding: 10,
     flexDirection: 'row',
     gap: 10,
     width: '100%',
