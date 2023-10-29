@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import {
   View,
   Text,
@@ -7,23 +7,28 @@ import {
   StyleSheet,
   Button,
 } from 'react-native'
+import axios from 'axios'
+import {UserContext} from '../context/UserContext'
 
 const Card = ({
   title,
   price,
   image,
-  navigation,
   id,
   addToCart,
   removeFromCart,
+  userData,
+  item,
 }) => {
-  const handleAddToCart = () => {
-    addToCart(id)
-  }
+  const {handleAddToCart, cart, handleRemoveFromCart} = useContext(UserContext)
 
-  const handleRemoveFromCart = () => {
-    removeFromCart(id)
-  }
+  // console.log('first', name)
+
+  // console.log("ITEM", item )
+  // console.log(cart)
+  const itemIndex = cart.findIndex(item => item.productId === id)
+
+  // console.log(cart[itemIndex])
 
   const cartQuantity = 0
 
@@ -39,19 +44,23 @@ const Card = ({
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.price}>Price: ${price}</Text>
         </View>
-        {cartQuantity > 0 ? (
+        {cart[itemIndex] ? (
           <View style={styles.cartActions}>
-            <TouchableOpacity onPress={handleRemoveFromCart}>
+            {/* <TouchableOpacity onPress={handleRemoveFromCart}>
               <Text style={styles.cartButton}>-</Text>
             </TouchableOpacity>
             <Text style={styles.cartQuantity}>{cartQuantity}</Text>
             <TouchableOpacity onPress={handleAddToCart}>
               <Text style={styles.cartButton}>+</Text>
+            </TouchableOpacity> */}
+
+            <TouchableOpacity onPress={() => handleRemoveFromCart(id)}>
+              <Text style={styles.cartButton}>Remove from Cart</Text>
             </TouchableOpacity>
           </View>
         ) : (
-          <TouchableOpacity onPress={handleAddToCart}>
-            <Text style={styles.addToCartButton}>Add to Cart</Text>
+          <TouchableOpacity onPress={() => handleAddToCart(item)}>
+            <Text style={styles.cartButton}>Add to Cart</Text>
           </TouchableOpacity>
         )}
       </View>
@@ -100,19 +109,19 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  cartButton: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginHorizontal: 10,
-    backgroundColor: 'lightblue',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-  },
+  // cartButton: {
+  //   fontSize: 20,
+  //   fontWeight: 'bold',
+  //   marginHorizontal: 10,
+  //   backgroundColor: 'lightblue',
+  //   borderRadius: 5,
+  //   paddingHorizontal: 10,
+  // },
   cartQuantity: {
     fontSize: 20,
     fontWeight: 'bold',
   },
-  addToCartButton: {
+  cartButton: {
     fontSize: 18,
     color: 'blue',
     backgroundColor: 'lightblue',

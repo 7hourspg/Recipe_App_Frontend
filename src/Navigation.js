@@ -1,10 +1,11 @@
 import {View, Text} from 'react-native'
-import React from 'react'
+import React, {useContext} from 'react'
 
 import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {useNavigation} from '@react-navigation/native'
+import {UserContext} from './context/UserContext'
 
 import HomeScreen from './screens/HomeScreen'
 import CartScreen from './screens/CartScreen'
@@ -17,6 +18,8 @@ const Tab = createBottomTabNavigator()
 
 function Navigation () {
   const navigation = useNavigation()
+  const {cart} = useContext(UserContext)
+  // console.log(cart)
 
   return (
     // <NavigationContainer>
@@ -44,7 +47,7 @@ function Navigation () {
           tabBarIcon: ({color}) => (
             <Ionicons name='cart' color={color} size={26} />
           ),
-          tabBarBadge: 3,
+          tabBarBadge: cart.length > 0 ? cart.length : null,
           headerLeft: () => (
             <Ionicons
               name='arrow-back'
