@@ -2,12 +2,11 @@ import {createContext, useEffect, useState} from 'react'
 import axios from 'axios'
 
 export const UserContext = createContext()
+export const IP_ADDRESS = '192.168.1.5:3000'
 
 export const UserProvider = ({children}) => {
   const [cart, setCart] = useState([])
   const [data, setData] = useState([])
-
-  const IP_ADDRESS = '192.168.1.5:3000'
 
   const handleAddToCart = item => {
     axios

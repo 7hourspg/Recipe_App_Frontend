@@ -1,5 +1,14 @@
+import axios from 'axios'
 import React, {useState} from 'react'
-import {View, Text, TextInput, TouchableOpacity, StyleSheet} from 'react-native'
+import {
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
+  ScrollView,
+} from 'react-native'
+
+import {IP_ADDRESS} from '../context/UserContext'
 
 const ContactScreen = () => {
   const [formData, setFormData] = useState({
@@ -14,12 +23,37 @@ const ContactScreen = () => {
   }
 
   const handleSubmit = () => {
-    // Implement your form submission logic here
-    // You can access the form data from formData
+    if (
+      !formData.name &&
+      !formData.email &&
+      !formData.subject &&
+      !formData.message
+    ) {
+      alert('Please fill all the fields')
+      return
+    }
+
+    axios
+      .post(`http://${IP_ADDRESS}/support`, formData)
+      .then(res => {
+        if (res.status == 200) {
+          alert('Message sent successfully')
+          setFormData({
+            name: '',
+            email: '',
+            subject: '',
+            message: '',
+          })
+        }
+      })
+      .catch(error => {
+        console.log(error)
+        alert('Something went wrong')
+      })
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} keyboardShouldPersistTaps='handled'>
       <Text style={styles.headerText}>Contact Us</Text>
       <Text style={styles.label}>Name:</Text>
       <TextInput
@@ -48,12 +82,14 @@ const ContactScreen = () => {
         value={formData.message}
         onChangeText={text => handleInputChange('message', text)}
         multiline
+        returnKeyType='done'
+        enterKeyHint='done'
       />
 
       <TouchableOpacity style={styles.submitButton} onPress={handleSubmit}>
         <Text style={styles.submitButtonText}>Submit</Text>
       </TouchableOpacity>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -89,6 +125,7 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: 'center',
     borderRadius: 5,
+    marginBottom: 50,
   },
   submitButtonText: {
     color: 'white',
