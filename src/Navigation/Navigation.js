@@ -5,11 +5,11 @@ import {NavigationContainer} from '@react-navigation/native'
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs'
 import {useNavigation} from '@react-navigation/native'
-import {UserContext} from './context/UserContext'
+import {UserContext} from '../context/UserContext'
 
-import HomeScreen from './screens/HomeScreen'
-import CartScreen from './screens/CartScreen'
-import ContactScreen from './screens/ContactScreen'
+import HomeScreen from '../screens/HomeScreen'
+import CartScreen from '../screens/CartScreen'
+import ContactScreen from '../screens/ContactScreen'
 
 import Ionicons from 'react-native-vector-icons/Ionicons'
 

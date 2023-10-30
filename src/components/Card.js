@@ -1,43 +1,14 @@
 import React, {useContext} from 'react'
-import {
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-  Button,
-} from 'react-native'
-import axios from 'axios'
+import {View, Text, Image, TouchableOpacity, StyleSheet} from 'react-native'
 import {UserContext} from '../context/UserContext'
 
-const Card = ({
-  title,
-  price,
-  image,
-  id,
-  addToCart,
-  removeFromCart,
-  userData,
-  item,
-}) => {
+const Card = ({title, price, image, id, item}) => {
   const {handleAddToCart, cart, handleRemoveFromCart} = useContext(UserContext)
 
-  // console.log('first', name)
-
-  // console.log("ITEM", item )
-  // console.log(cart)
   const itemIndex = cart.findIndex(item => item.productId === id)
 
-  // console.log(cart[itemIndex])
-
-  const cartQuantity = 0
-
   return (
-    <View
-      style={styles.cardContainer}
-      onPress={() => {
-        // Handle navigation logic here using the 'navigation' prop and 'id'
-      }}>
+    <View style={styles.cardContainer}>
       <Image source={{uri: image}} style={styles.image} />
       <View style={styles.cardDetails}>
         <View style={styles.titlePriceContainer}>
@@ -46,14 +17,6 @@ const Card = ({
         </View>
         {cart[itemIndex] ? (
           <View style={styles.cartActions}>
-            {/* <TouchableOpacity onPress={handleRemoveFromCart}>
-              <Text style={styles.cartButton}>-</Text>
-            </TouchableOpacity>
-            <Text style={styles.cartQuantity}>{cartQuantity}</Text>
-            <TouchableOpacity onPress={handleAddToCart}>
-              <Text style={styles.cartButton}>+</Text>
-            </TouchableOpacity> */}
-
             <TouchableOpacity onPress={() => handleRemoveFromCart(id)}>
               <Text style={styles.cartButton}>Remove from Cart</Text>
             </TouchableOpacity>
@@ -109,14 +72,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  // cartButton: {
-  //   fontSize: 20,
-  //   fontWeight: 'bold',
-  //   marginHorizontal: 10,
-  //   backgroundColor: 'lightblue',
-  //   borderRadius: 5,
-  //   paddingHorizontal: 10,
-  // },
+
   cartQuantity: {
     fontSize: 20,
     fontWeight: 'bold',

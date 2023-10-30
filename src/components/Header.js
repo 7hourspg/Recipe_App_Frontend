@@ -1,52 +1,32 @@
-import React, {Component} from 'react'
-import {View, TextInput, Button, FlatList, Text, StyleSheet} from 'react-native'
+import React, {useEffect, useState} from 'react'
+import {View, TextInput, StyleSheet} from 'react-native'
+import {UserContext} from '../context/UserContext'
 
-class SearchFilterComponent extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      searchText: '',
-      filterOption: 'all',
-      data: [
-        {id: '1', name: 'Item 1'},
-        {id: '2', name: 'Item 2'},
-        {id: '3', name: 'Item 3'},
-        // Add more data items here
-      ],
-    }
-  }
+import FilterModal from './FilterModal'
 
-  filterData = () => {
-    const {searchText, filterOption} = this.state
-    let filteredData = this.state.data
+const SearchFilterComponent = () => {
+  const [searchText, setSearchText] = useState('')
+  const [showModal, setShowModal] = useState(false)
 
-    if (filterOption !== 'all') {
-      filteredData = filteredData.filter(item =>
-        item.name.includes(filterOption),
-      )
-    }
+  const {handleSearch} = React.useContext(UserContext)
 
-    if (searchText) {
-      filteredData = filteredData.filter(item => item.name.includes(searchText))
-    }
+  useEffect(() => {
+    handleSearch(searchText)
+  }, [searchText])
 
-    return filteredData
-  }
-
-  render () {
-    const filteredData = this.filterData()
-
-    return (
-      <View style={styles.container}>
-        <TextInput
-          style={styles.searchBar}
-          placeholder='Search...'
-          onChangeText={text => this.setState({searchText: text})}
-        />
-        <Text style={styles.filterText}>Filters</Text>
-      </View>
-    )
-  }
+  return (
+    <View style={styles.container}>
+      <TextInput
+        style={styles.searchBar}
+        placeholder='Search...'
+        onChangeText={text => setSearchText(text)}
+      />
+      {/* <Text style={styles.filterText} onPress={() => setShowModal(true)}>
+        Filter
+      </Text> */}
+      <FilterModal modalVisible={showModal} setModalVisible={setShowModal} />
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -58,7 +38,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   searchBar: {
-    flex: 1,
+    flex: 3,
     borderWidth: 1,
     borderColor: '#000',
     borderRadius: 5,
